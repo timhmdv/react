@@ -28,7 +28,7 @@ export default class PostListItem extends Component {
   };
   // eslint-disable-next-line require-jsdoc
   render() {
-    const {label} = this.props;
+    const {label, onDelete} = this.props;
     const {important, like} = this.state;
     let classNames = 'app-list-item d-flex justify-content-between';
     if (important) {
@@ -47,7 +47,7 @@ export default class PostListItem extends Component {
             onClick={this.onImportant}>
             <i className='fas fa-star'></i>
           </button>
-          <button type='button' className='btn-trash btn-sm'>
+          <button type='button' className='btn-trash btn-sm' onClick={onDelete}>
             <i className='fas fa-trash'></i>
           </button>
           <i className='fas fa-heart'></i>
@@ -60,6 +60,7 @@ export default class PostListItem extends Component {
 
 PostListItem.propTypes = {
   label: PropTypes.string.isRequired,
-  important: PropTypes.bool,
+  important: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 

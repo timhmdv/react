@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const PostAddForm = () => {
+const PostAddForm = ({onAdd}) => {
   return (
-    <form className='bottom-panel d-flex'>
+    <div className='bottom-panel d-flex'>
       <input
         type='text'
         placeholder='О чём Вы думаете сейчас?'
@@ -10,10 +11,15 @@ const PostAddForm = () => {
       />
       <button
         type='submit'
-        className='btn btn-outline-secondary'>
+        className='btn btn-outline-secondary'
+        onClick={() => onAdd('Hello')}>
         Добавить</button>
-    </form>
+    </div>
   );
+};
+
+PostAddForm.propTypes = {
+  onAdd: PropTypes.func.isRequired,
 };
 
 export default PostAddForm;
