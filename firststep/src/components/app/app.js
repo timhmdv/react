@@ -12,13 +12,18 @@ export default class App extends Component {
     super(props);
     this.state = {
       data: [
-        {postId: 1, label: 'Going to learn React', important: true},
-        {postId: 2, label: 'That is so good', important: false},
-        {postId: 3, label: 'I need a break', important: false},
+        {postId: 1, label: 'Going to learn React',
+          important: true, like: false},
+        {postId: 2, label: 'That is so good',
+          important: false, like: false},
+        {postId: 3, label: 'I need a break',
+          important: false, like: false},
       ],
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
+    this.onToggleImportant = this.onToggleImportant.bind(this);
+    this.onToggleLiked = this.onToggleLiked.bind(this);
 
     this.maxId = 4;
   }
@@ -42,7 +47,7 @@ export default class App extends Component {
       important: false,
       postId: this.maxId++,
     };
-
+    console.log(this);
     this.setState(({data}) => {
       return {
         data: [...data, newItem],
@@ -51,16 +56,58 @@ export default class App extends Component {
   };
 
   // eslint-disable-next-line require-jsdoc
+  onToggleImportant(postId) {
+    this.setState(({data}) => {
+      const index = data.findIndex((elem) => elem.postId === postId);
+
+      const old = data[index];
+      const newItem = {...old, important: !old.important};
+
+      const newArr = [...data.slice(0, index),
+        newItem, ...data.slice(index + 1)];
+
+      return {
+        data: newArr,
+      };
+    });
+  };
+
+  // eslint-disable-next-line require-jsdoc
+  onToggleLiked(postId) {
+    this.setState(({data}) => {
+      const index = data.findIndex((elem) => elem.postId === postId);
+
+      const old = data[index];
+      const newItem = {...old, like: !old.like};
+
+      const newArr = [...data.slice(0, index),
+        newItem, ...data.slice(index + 1)];
+
+      return {
+        data: newArr,
+      };
+    });
+  };
+
+  // eslint-disable-next-line require-jsdoc
   render() {
+    const {data} = this.state;
+    const likedPostsCount = data.filter((item) => item.like).length;
+    const postsCount = data.length;
+
     return (
       <div className='app'>
-        <AppHeader/>
+        <AppHeader
+          likedPostsCount={likedPostsCount}
+          postsCount={postsCount}/>
         <div className='search-panel d-flex'>
           <SearchPanel/>
           <PostStatusFilter/>
         </div>
         <PostList posts={this.state.data}
-          onDelete={this.deleteItem}/>
+          onDelete={this.deleteItem}
+          onToggleImportant={this.onToggleImportant}
+          onToggleLiked={this.onToggleLiked}/>
         <PostAddForm
           onAdd={this.addItem}/>
       </div>
