@@ -19,11 +19,15 @@ export default class App extends Component {
         {postId: 3, label: 'I need a break',
           important: false, like: false},
       ],
+      term: '',
+      filter: 'all',
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
     this.onToggleImportant = this.onToggleImportant.bind(this);
     this.onToggleLiked = this.onToggleLiked.bind(this);
+    this.onUpdateSearch = this.onUpdateSearch.bind(this);
+    this.onFilterSelect = this.onFilterSelect.bind(this);
 
     this.maxId = 4;
   }
@@ -45,15 +49,15 @@ export default class App extends Component {
     const newItem = {
       label: body,
       important: false,
+      like: false,
       postId: this.maxId++,
     };
-    console.log(this);
     this.setState(({data}) => {
       return {
         data: [...data, newItem],
       };
     });
-  };
+  }
 
   // eslint-disable-next-line require-jsdoc
   onToggleImportant(postId) {
@@ -70,7 +74,7 @@ export default class App extends Component {
         data: newArr,
       };
     });
-  };
+  }
 
   // eslint-disable-next-line require-jsdoc
   onToggleLiked(postId) {
@@ -87,13 +91,47 @@ export default class App extends Component {
         data: newArr,
       };
     });
-  };
+  }
+
+  // eslint-disable-next-line require-jsdoc
+  searchPost(items, term) {
+    if (term.length === 0) {
+      return items;
+    }
+
+    return items.filter((item) => {
+      return item.label.indexOf(term) > -1;
+    });
+  }
+
+  // eslint-disable-next-line require-jsdoc
+  filterPost(items, filter) {
+    if (filter === 'like') {
+      return items.filter((item) => {
+        return item.like;
+      });
+    } else {
+      return items;
+    }
+  }
+
+  // eslint-disable-next-line require-jsdoc
+  onUpdateSearch(term) {
+    this.setState({term});
+  }
+
+  // eslint-disable-next-line require-jsdoc
+  onFilterSelect(filter) {
+    this.setState({filter});
+  }
 
   // eslint-disable-next-line require-jsdoc
   render() {
-    const {data} = this.state;
+    const {data, term, filter} = this.state;
     const likedPostsCount = data.filter((item) => item.like).length;
     const postsCount = data.length;
+
+    const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
 
     return (
       <div className='app'>
@@ -101,10 +139,13 @@ export default class App extends Component {
           likedPostsCount={likedPostsCount}
           postsCount={postsCount}/>
         <div className='search-panel d-flex'>
-          <SearchPanel/>
-          <PostStatusFilter/>
+          <SearchPanel
+            onUpdateSearch={this.onUpdateSearch}/>
+          <PostStatusFilter
+            filter={filter}
+            onFilterSelect={this.onFilterSelect}/>
         </div>
-        <PostList posts={this.state.data}
+        <PostList posts={visiblePosts}
           onDelete={this.deleteItem}
           onToggleImportant={this.onToggleImportant}
           onToggleLiked={this.onToggleLiked}/>
@@ -112,5 +153,5 @@ export default class App extends Component {
           onAdd={this.addItem}/>
       </div>
     );
-  };
-};
+  }
+}
