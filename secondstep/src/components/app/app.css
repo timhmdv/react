@@ -1,0 +1,9 @@
+.button {
+    display: block;
+    color: white;
+    background-color: blue;
+    border: none;
+    margin: 0px auto 40px auto;
+    padding: 10px;
+
+}
