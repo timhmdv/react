@@ -26,7 +26,8 @@ export default class ItemList extends Component {
       return (
         <li
           key={index}
-          className="list-group-item">
+          className="list-group-item"
+          onClick={() => this.props.onCharacterSelected(41 + index)}>
           {character.name}
         </li>
       );
@@ -40,7 +41,6 @@ export default class ItemList extends Component {
       return <Spinner/>;
     }
 
-    console.log(this.renderItems(charactersList));
     const characters = this.renderItems(charactersList);
 
     return (

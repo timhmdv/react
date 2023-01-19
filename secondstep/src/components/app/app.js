@@ -5,6 +5,7 @@ import Header from '../header';
 import RandomChar from '../randomChar';
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
+import ErrorMessage from '../errorMessage';
 import './app.css';
 
 
@@ -15,7 +16,16 @@ export default class App extends Component {
 
   state = {
     showRandomCharacter: true,
+    selectedCharacter: 130,
+    error: false,
   };
+
+  componentDidCatch() {
+    console.log('error');
+    this.setState({
+      error: true,
+    });
+  }
 
   toggleRandomCharacter = () => {
     this.setState({
@@ -23,8 +33,18 @@ export default class App extends Component {
     });
   };
 
+  onCharacterSelected = (id) => {
+    this.setState({
+      selectedCharacter: id,
+    });
+  };
+
   render() {
     const {showRandomCharacter} = this.state;
+
+    if (this.state.error) {
+      return <ErrorMessage/>;
+    }
 
     return (
       <>
@@ -42,10 +62,10 @@ export default class App extends Component {
           </Row>
           <Row>
             <Col md='6'>
-              <ItemList />
+              <ItemList onCharacterSelected={this.onCharacterSelected}/>
             </Col>
             <Col md='6'>
-              <CharDetails />
+              <CharDetails characterId={this.state.selectedCharacter}/>
             </Col>
           </Row>
         </Container>
