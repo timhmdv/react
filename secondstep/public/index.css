@@ -6,7 +6,7 @@
 }
 body {
     overflow-x: hidden;
-    background: url('img/got.jpg') center center repeat;
+    background: url('img/got.jpg') repeat;
     background-size: cover;
     font-size: 16px;
     height: 100%;	
