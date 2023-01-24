@@ -14,33 +14,41 @@ export default class GotService {
     return await res.json();
   }
 
-  async getAllCharacters() {
+  getAllCharacters = async () => {
     const characters = await this.getResource(`/characters?page=5&pageSize=10`);
     return characters.map((character) => {
       return this._transformCharacter(character);
     });
-  }
+  };
 
-  async getCharacter(id) {
+  getCharacter = async (id) => {
     const character = await this.getResource(`/characters/${id}`);
     return this._transformCharacter(character);
-  }
+  };
 
-  getAllHouses() {
-    return this.getResource(`/houses/`);
-  }
+  getAllHouses = async () => {
+    const houses = await this.getResource(`/houses/`);
+    return houses.map((house) => {
+      return this._transformHouse(house);
+    });
+  };
 
-  getHouse(id) {
-    return this.getResource(`/houses/${id}`);
-  }
+  getHouse = async (id) => {
+    const house = await this.getResource(`/houses/${id}`);
+    return this._transformHouse(house);
+  };
 
-  getAllBooks() {
-    return this.getResource(`/books/`);
-  }
+  getAllBooks = async () => {
+    const books = await this.getResource(`/books/`);
+    return books.map((book) => {
+      return this._transformBook(book);
+    });
+  };
 
-  getBook(id) {
-    return this.getResource(`/books/${id}`);
-  }
+  getBook = async (id) => {
+    const book = await this.getResource(`/books/${id}`);
+    return this._transformBook(book);
+  };
 
   _transformCharacter(character) {
     return {
@@ -64,7 +72,7 @@ export default class GotService {
     };
   }
 
-  _transformHouse(book) {
+  _transformBook(book) {
     return {
       name: book.name ? book.name : 'No name info',
       numberOfPages: book.numberOfPages ?
