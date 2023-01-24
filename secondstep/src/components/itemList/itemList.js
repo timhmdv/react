@@ -9,14 +9,16 @@ export default class ItemList extends Component {
   GotService = new GotService();
 
   state = {
-    charactersList: null,
+    itemsList: null,
   };
 
   componentDidMount() {
-    this.GotService.getAllCharacters()
-        .then((charactersList) => {
+    const {getData} = this.props;
+
+    getData()
+        .then((itemsList) => {
           this.setState({
-            charactersList,
+            itemsList,
           });
         });
   };
@@ -35,13 +37,13 @@ export default class ItemList extends Component {
   };
 
   render() {
-    const {charactersList} = this.state;
+    const {itemsList} = this.state;
 
-    if (!charactersList) {
+    if (!itemsList) {
       return <Spinner/>;
     }
 
-    const characters = this.renderItems(charactersList);
+    const characters = this.renderItems(itemsList);
 
     return (
       <ul className="item-list list-group">
@@ -53,4 +55,5 @@ export default class ItemList extends Component {
 
 ItemList.propTypes = {
   onCharacterSelected: PropTypes.func.isRequired,
+  getData: PropTypes.func.isRequired,
 };
