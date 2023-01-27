@@ -7,7 +7,7 @@ import CharacterPage from '../characterPage';
 import ErrorMessage from '../errorMessage';
 import './app.css';
 import ItemList from '../itemList';
-import CharDetails from '../charDetails';
+import ItemDetails from '../itemDetails';
 import GotService from '../../services/gotService';
 
 
@@ -60,21 +60,27 @@ export default class App extends Component {
           <Row>
             <Col md='6'>
               <ItemList
-                onCharacterSelected={this.onCharacterSelected}
-                getData={this.gotService.getAllBooks}/>
+                onItemSelected={this.onItemSelected}
+                getData={this.gotService.getAllBooks}
+                renderItem={(item) => {
+                  return item.name;
+                }}/>
             </Col>
             <Col md='6'>
-              <CharDetails characterId={this.state.selectedCharacter}/>
+              <ItemDetails itemId={this.state.selectedItem}/>
             </Col>
           </Row>
           <Row>
             <Col md='6'>
               <ItemList
-                onCharacterSelected={this.onCharacterSelected}
-                getData={this.gotService.getAllHouses}/>
+                onItemSelected={this.onItemSelected}
+                getData={this.gotService.getAllHouses}
+                renderItem={(item) => {
+                  return item.name;
+                }}/>
             </Col>
             <Col md='6'>
-              <CharDetails characterId={this.state.selectedCharacter}/>
+              <ItemDetails itemId={this.state.selectedItem}/>
             </Col>
           </Row>
         </Container>

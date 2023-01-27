@@ -24,13 +24,15 @@ export default class ItemList extends Component {
   };
 
   renderItems(arr) {
-    return arr.map((character, index) => {
+    return arr.map((item) => {
+      const {id} = item;
+      const label = this.props.renderItem(item);
       return (
         <li
-          key={index}
+          key={id}
           className="list-group-item"
-          onClick={() => this.props.onCharacterSelected(41 + index)}>
-          {character.name}
+          onClick={() => this.props.onItemSelected(id)}>
+          {label}
         </li>
       );
     });
@@ -54,6 +56,7 @@ export default class ItemList extends Component {
 }
 
 ItemList.propTypes = {
-  onCharacterSelected: PropTypes.func.isRequired,
+  onItemSelected: PropTypes.func.isRequired,
   getData: PropTypes.func.isRequired,
+  renderItem: PropTypes.func.isRequired,
 };

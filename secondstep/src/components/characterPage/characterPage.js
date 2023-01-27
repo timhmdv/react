@@ -1,8 +1,9 @@
 /* eslint-disable require-jsdoc */
 import React, {Component} from 'react';
-import {Col, Row} from 'reactstrap';
+import RowBlock from '../rowBlock';
 import ItemList from '../itemList';
-import CharDetails from '../charDetails';
+import ItemDetails from '../itemDetails';
+import {Field} from '../itemDetails';
 import ErrorMessage from '../errorMessage';
 import GotService from '../../services/gotService';
 import './characterPage.css';
@@ -11,7 +12,7 @@ export default class CharacterPage extends Component {
   gotService = new GotService();
 
   state = {
-    selectedCharacter: 130,
+    selectedItem: '130',
     error: false,
   };
 
@@ -21,9 +22,9 @@ export default class CharacterPage extends Component {
     });
   };
 
-  onCharacterSelected = (id) => {
+  onItemSelected = (id) => {
     this.setState({
-      selectedCharacter: id,
+      selectedItem: id,
     });
   };
 
@@ -32,16 +33,27 @@ export default class CharacterPage extends Component {
       return <ErrorMessage/>;
     }
 
+    const itemList = (
+      <ItemList onItemSelected={this.onItemSelected}
+        getData={this.gotService.getAllCharacters}
+        renderItem={({name, gender}) => {
+          return `${name} ${gender}`;
+        }}/>
+    );
+
+    const itemDetails = (
+      <ItemDetails
+        getData={this.gotService.getCharacter}
+        itemId={this.state.selectedItem}>
+        <Field field='gender' label='Gender'/>
+        <Field field='born' label='Born'/>
+        <Field field='died' label='Died'/>
+        <Field field='culture' label='Culture'/>
+      </ItemDetails>
+    );
+
     return (
-      <Row>
-        <Col md='6'>
-          <ItemList onCharacterSelected={this.onCharacterSelected}
-            getData={this.gotService.getAllCharacters}/>
-        </Col>
-        <Col md='6'>
-          <CharDetails characterId={this.state.selectedCharacter}/>
-        </Col>
-      </Row>
+      <RowBlock left={itemList} right={itemDetails}/>
     );
   }
 };
