@@ -1,18 +1,18 @@
 /* eslint-disable require-jsdoc */
 import React, {Component} from 'react';
-import RowBlock from '../rowBlock';
-import ItemList from '../itemList';
-import ItemDetails from '../itemDetails';
-import {Field} from '../itemDetails';
-import ErrorMessage from '../errorMessage';
-import GotService from '../../services/gotService';
-import './characterPage.css';
+import RowBlock from '../../rowBlock';
+import ItemList from '../../itemList';
+import ItemDetails from '../../itemDetails';
+import {Field} from '../../itemDetails';
+import ErrorMessage from '../../errorMessage';
+import GotService from '../../../services/gotService';
+import './charactersPage.css';
 
-export default class CharacterPage extends Component {
+export default class CharactersPage extends Component {
   gotService = new GotService();
 
   state = {
-    selectedItem: '130',
+    selectedItem: '1',
     error: false,
   };
 
@@ -36,8 +36,8 @@ export default class CharacterPage extends Component {
     const itemList = (
       <ItemList onItemSelected={this.onItemSelected}
         getData={this.gotService.getAllCharacters}
-        renderItem={({name, gender}) => {
-          return `${name} ${gender}`;
+        renderItem={({name}) => {
+          return name;
         }}/>
     );
 
