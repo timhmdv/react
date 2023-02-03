@@ -2,8 +2,7 @@
 import React, {Component} from 'react';
 import RowBlock from '../../rowBlock';
 import ItemList from '../../itemList';
-import ItemDetails from '../../itemDetails';
-import {Field} from '../../itemDetails';
+import ItemDetails, {Field} from '../../itemDetails';
 import ErrorMessage from '../../errorMessage';
 import GotService from '../../../services/gotService';
 import './charactersPage.css';

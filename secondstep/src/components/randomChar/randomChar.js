@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './randomChar.css';
-import GotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -15,8 +14,6 @@ export default class RandomChar extends Component {
   componentWillUnmount() {
     clearInterval(this.timerId);
   }
-
-  gotService = new GotService();
 
   state = {
     character: {},
@@ -40,7 +37,7 @@ export default class RandomChar extends Component {
 
   updateCharacter = () => {
     const id = Math.floor(Math.random()*140 + 25);
-    this.gotService.getCharacter(id)
+    this.props.getData(id)
         .then((character) => {
           this.onCharLoaded(character);
         })
@@ -90,6 +87,10 @@ const View = ({character}) => {
       </ul>
     </>
   );
+};
+
+RandomChar.propTypes = {
+  getData: PropTypes.func.isRequired,
 };
 
 View.propTypes = {
