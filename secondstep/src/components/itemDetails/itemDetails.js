@@ -65,7 +65,7 @@ export default class ItemDetails extends Component {
 }
 
 Field.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
   field: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
@@ -73,5 +73,5 @@ Field.propTypes = {
 ItemDetails.propTypes = {
   itemId: PropTypes.string.isRequired,
   getData: PropTypes.func.isRequired,
-  children: PropTypes.object,
+  children: PropTypes.array,
 };
